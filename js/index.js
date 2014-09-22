@@ -8,6 +8,12 @@ $( document ).ready(function() {
 	$("#bJug").click(function () {
 		tabs("jug");
 	});
+	$("#rtabla").click(function(){
+		$('#tablaweb').load(document.URL + ' #tablaweb');
+	});
+	$("#rfecha").click(function(){
+		$('#fechaweb').load(document.URL + ' #fechaweb');
+	});
 });
 
 function tabs(id) {
