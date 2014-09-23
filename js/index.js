@@ -1,19 +1,23 @@
 $( document ).ready(function() {
 	new FastClick(document.body);
-	var selected;
+	$("#bFecha").toggleClass("tabsel");
 	$("#bFecha").click(function () {
+		$(".tab").removeClass("tabsel");
+		$(this).toggleClass("tabsel");
 		tabs("fecha");
-		$("#bFecha").toggleClass("active");
 	});
 	$("#bTabla").click(function () {
+		$(".tab").removeClass("tabsel");
+		$(this).toggleClass("tabsel");
 		tabs("tabla");
-		$("#bTabla").toggleClass("active");
 	});
 	$("#bJug").click(function () {
+		$(".tab").removeClass("tabsel");
+		$(this).toggleClass("tabsel");
 		tabs("jug");	
-		$("#bjug .topcoat-button--large--quiet").toggleClass("active");
 	});
 	$("#rtabla").click(function(){
+		$(this).toggleClass("test")
 		$('#tablaweb').load(document.URL + ' #tablaweb');
 		$('#tablaweb').effect("highlight");
 	});
@@ -29,7 +33,6 @@ $( document ).ready(function() {
 		iframe.contents().find('.titles').css("width", "100%");
 		iframe.contents().find('.col1').css("width", "40%");		
 		iframe.contents().find('.col2, .col8, .col10').css("width", "20%");
-
 	})
 });
 
