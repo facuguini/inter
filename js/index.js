@@ -11,13 +11,15 @@ $( document ).ready(function() {
 	});
 	$("#bJug").click(function () {
 		tabs("jug");	
-		$("#bjug").toggleClass("active");
+		$("#bjug .topcoat-button--large--quiet").toggleClass("active");
 	});
 	$("#rtabla").click(function(){
-		$('#tablaweb .topcoat-button--large--quiet').load(document.URL + ' #tablaweb');
+		$('#tablaweb').load(document.URL + ' #tablaweb');
+		$('#tablaweb').effect("highlight");
 	});
 	$("#rfecha").click(function(){
 		$('#fechaweb').load(document.URL + ' #fechaweb');
+		$('#fechaweb').effect("highlight");
 	});
 
 	var iframe = $('#itable');
