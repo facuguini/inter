@@ -30,7 +30,7 @@ $( document ).ready(function() {
 	});
 	$("#rfecha").click(function(){
 		animate($(this));
-		$('#fechaweb').load(document.URL + ' #fechaweb');
+		$('#iwfecha').attr("src","http://www.360sports.com.ar/images/horarios_domingos.jpg");
 		$('#fechaweb').effect("fade");
 		setTimeout(function() {$( "#fechaweb" ).fadeIn();}, 350 );
 	});

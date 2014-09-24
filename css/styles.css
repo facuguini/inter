@@ -53,7 +53,11 @@ body {
  	white-space: normal;
  	z-index: 0;
  }
-  
+.tab:active {
+	background-color: #01083d;
+ 	border-bottom-right-radius: 0px;
+  	border-bottom-left-radius: 0px;
+}
 @media (max-width: 500px) {
   .tab {
     font-size:80%;
@@ -111,23 +115,19 @@ body {
  	text-align: center;
  	vertical-align: center;
  	margin-top: 50%;
+ 	display: block;
+ 	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
  }
 .refresh:active {
  	color: #5050ff;
  }
 .glyphicon-refresh-animate {
-   -webkit-animation-name: rotateThis;
-   -webkit-animation-duration: 2s;
-   -webkit-animation-iteration-count: infinite;
-   -webkit-animation-timing-function: linear;
+	-webkit-animation: cssAnimation 1.6117s 1 ease;
+	writing-mode: lr-tb;
 }
-@-webkit-keyframes "rotateThis" {
-	from { 
-        -webkit-transform: rotate( 0deg );  
-    }
-	to  { 
-        -webkit-transform: rotate( 359deg ); 
-    }
+@-webkit-keyframes cssAnimation {
+	from { -webkit-transform: rotate(4deg); writing-mode: lr-tb;}
+	to { -webkit-transform: rotate(360deg); writing-mode: lr-tb;}
 }
 
  .iadd {
