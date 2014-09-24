@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, height=device-height,  initial-scale=1.0, user-scalable=no;user-scalable=0;"/>
 		<title>Inter</title>
 		
 		<link href="css/topcoat-desktop-dark.min.css" rel="stylesheet" type="text/css">
@@ -12,6 +13,7 @@
 		<script src="js/jquery-1.11.1.min.js"></script>
 		<script src="js/jquery-ui.min.js"></script>
 		<script src="js/index.js"></script>
+		<script src="js/bootstrap.min.js"></script>
 		
 	</head>
 
@@ -31,6 +33,9 @@
 			</div>
 		</div>
 
+		<div class="menu"></div>
+		<div class="menu2"></div>
+
 		<div id="tabla" hidden="true">
 			<div class="container">
 				<div class="row">
@@ -41,14 +46,13 @@
 						<span id="rtabla" class="glyphicon glyphicon-refresh refresh"></span>
 					</div>
 				</div>
-				<div id="tablaweb" class="row">
+				<div id="tablaweb" class="row contenido">
 					<div class="tablaweb">
 						<iframe id="itable" scrolling="no" src="http://www.datafutbol.net/comunidad/campeonato/tablas/545#tabla-posiciones-1692" class="iframe"></iframe>
 					</div>
 				</div>
 			</div>
 		</div>
-
 		<div id="fecha">
 			<div class="container">
 				<div class="row">
@@ -59,7 +63,7 @@
 						<span id="rfecha" class="glyphicon glyphicon-refresh refresh"></span>
 					</div>
 				</div>
-				<div id="fechaweb" class="row">
+				<div id="fechaweb" class="row contenido">
 					<div class="fechaweb">
 						<img id="iwfecha" class="imgfecha" src="http://www.360sports.com.ar/images/horarios_domingos.jpg">
 					</div>
@@ -71,17 +75,33 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-xs-11">
-						<h2></h2>
+						<input type="text" class="topcoat-text-input iadd" placeholder="Nombre" value="">
 					</div>
 					<div class="col-xs-1">
 						<span id="rjug" class="glyphicon glyphicon-refresh refresh"></span>
 					</div>
 				</div>
-				<div class="row">
-					<p class="wtext">Proximamente...</p>
+				<div class="row contenido">
+					<p class="wtext" style="margin-top:15px">Proximamente...</p>
 				</div>	
 				</div>
 			</div>
+		</div>
+
+
+		<div class="modal fade" id="imgModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog autowrap">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		      </div>
+		      <div class="modal-body">
+		      	<img class="mImg" src="http://www.360sports.com.ar/images/horarios_domingos.jpg">
+		      </div>
+		      <div class="modal-footer">
+		      </div>
+		    </div>
+		  </div>
 		</div>
 	</body>
 
