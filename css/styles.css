@@ -110,25 +110,15 @@ body {
 
 .refresh {
  	color: #0000ff;
- 	height: 70%;
+ /*	height: 70%;
  	width: 70%;
- 	text-align: center;
- 	vertical-align: center;
  	margin-top: 50%;
  	display: block;
- 	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
- }
+ */}
 .refresh:active {
  	color: #5050ff;
  }
-.glyphicon-refresh-animate {
-	-webkit-animation: cssAnimation 1.6117s 1 ease;
-	writing-mode: lr-tb;
-}
-@-webkit-keyframes cssAnimation {
-	from { -webkit-transform: rotate(4deg); writing-mode: lr-tb;}
-	to { -webkit-transform: rotate(360deg); writing-mode: lr-tb;}
-}
+
 
  .iadd {
  	height: 100%;
@@ -189,4 +179,12 @@ body {
 	text-align: center;
 	height: 100%;
 	width: 100%;
+}
+
+.rotate {
+	-webkit-animation: cssAnimation 1.6117s 1 ease;
+}
+@-webkit-keyframes cssAnimation {
+	from { -webkit-transform: rotate(4deg);}
+	to { -webkit-transform: rotate(360deg);}
 }

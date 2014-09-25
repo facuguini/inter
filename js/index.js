@@ -17,7 +17,7 @@ $( document ).ready(function() {
 		tabs("jug");	
 	});
 	$("#rtabla").click(function(){
-		animate($(this));
+		animate($(this), "rotate");
 		iframe.load(function(){
 			iframe.contents().find(".bottom-line, #tab-tabla-1692, #tab-fairplay, #tab-vallamenosvencida, #tabla-posiciones-1692 .col3, .col4, .col5, .col6, .col7, .col9, .col-fp, .instructions").hide();
 			iframe.contents().find('.titles').css("background-color", "#000069");
@@ -29,7 +29,7 @@ $( document ).ready(function() {
 		setTimeout(function() {$( "#tablaweb" ).fadeIn();}, 350 );
 	});
 	$("#rfecha").click(function(){
-		animate($(this));
+		animate($(this), "rotate");
 		$('#iwfecha').attr("src","http://www.360sports.com.ar/images/horarios_domingos.jpg");
 		$('#fechaweb').effect("fade");
 		setTimeout(function() {$( "#fechaweb" ).fadeIn();}, 350 );
@@ -48,8 +48,6 @@ $( document ).ready(function() {
 		$('#imgModal').modal('toggle');
 	})
 });
-
-
 
 function tabs(id) {
 	switch(id) {
@@ -71,10 +69,9 @@ function tabs(id) {
 	}
 }
 
-var animate = function(animar) {
-	    animateClass = "glyphicon-refresh-animate";
-	    animar.addClass( animateClass );
+var animate = function(animar, animation) {
+	    animar.addClass( animation );
   	     window.setTimeout( function() {
-     	        animar.removeClass( animateClass );
+     	        animar.removeClass( animation );
              }, 1000 );  
 	}
