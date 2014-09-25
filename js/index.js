@@ -51,8 +51,17 @@ $( document ).ready(function() {
 
 	$("#addbtn").click(function(){
 		listLength++;
-		$("#ljug").append("<div id='inv'><span class='wtext'>"+$("#nInv").val()+"</span><span id='rem' class='wtext glyphicon glyphicon-remove'></span><br></div>");
-		$("#nInv").val("");
+		if(!isNullOrWhiteSpace($("#nInv").val())) {
+			$("#ljug").append("<div id='inv'><span class='wtext'>"+$("#nInv").val()+"</span><span id='rem' class='wtext glyphicon glyphicon-remove'></span><br></div>");
+			$("#nInv").val("");
+		} else {
+			$("#nInv").addClass("invalidtxt");
+			setTimeout(function() {$("#nInv").removeClass("invalidtxt");}, 300 );
+			setTimeout(function() {$("#nInv").addClass("invalidtxt");}, 600 );
+			setTimeout(function() {$("#nInv").removeClass("invalidtxt");}, 900 );
+			setTimeout(function() {$("#nInv").addClass("invalidtxt");}, 1200 );
+			setTimeout(function() {$("#nInv").removeClass("invalidtxt");}, 1500 );
+		}
 	})
 	for(i=1;i<listLength+1;i++) {
 		$("#rem"+i).click(function() {
@@ -92,8 +101,11 @@ function tabs(id) {
 }
 
 var animate = function(animar, animation) {
-	    animar.addClass( animation );
-  	     window.setTimeout( function() {
-     	        animar.removeClass( animation );
-             }, 1000 );  
-	}
+    animar.addClass( animation );
+    window.setTimeout( function() {animar.removeClass( animation );}, 1000 );  
+}
+
+function isNullOrWhiteSpace( input ) {
+    if (input == null) return true;
+    return input.replace(/\s/g, '').length < 1;
+}
