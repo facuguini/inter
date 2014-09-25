@@ -1,5 +1,6 @@
 $( document ).ready(function() {
 	new FastClick(document.body);
+	var listLength = 7;
 	$("#bFecha").toggleClass("tabsel");
 	$("#bFecha").click(function () {
 		$(".tab").removeClass("tabsel");
@@ -49,10 +50,26 @@ $( document ).ready(function() {
 	})
 
 	$("#addbtn").click(function(){
-		$("#ljug").append("<p class='wtext'>"+$("#nInv").val()+"</p>");
+		listLength++;
+		$("#ljug").append("<div id='inv'><span class='wtext'>"+$("#nInv").val()+"</span><span id='rem' class='wtext glyphicon glyphicon-remove'></span><br></div>");
 		$("#nInv").val("");
 	})
+	for(i=1;i<listLength+1;i++) {
+		$("#rem"+i).click(function() {
+			if($(this).hasClass("glyphicon-remove")) {
+				$(this).addClass("glyphicon-ok");
+				$(this).removeClass("glyphicon-remove");
+			} else {
+				$(this).addClass("glyphicon-remove");
+				$(this).removeClass("glyphicon-ok");
+			}
+		})
+	}
+	$("#inv").on( 'click', '.glyphicon-remove', function () {
+		$(this).closest("div").remove();
+	})
 });
+
 
 function tabs(id) {
 	switch(id) {

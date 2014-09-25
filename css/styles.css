@@ -58,6 +58,11 @@ body {
  	border-bottom-right-radius: 0px;
   	border-bottom-left-radius: 0px;
 }
+.tab:hover {
+	background-color: #01083d;
+ 	border-bottom-right-radius: 0px;
+  	border-bottom-left-radius: 0px;
+}
 @media (max-width: 500px) {
   .tab {
     font-size:80%;
@@ -189,6 +194,15 @@ body {
 	width: 100%;
 }
 
+.glyphicon-remove {
+	color: #ff0000;
+}
+
+.glyphicon-ok {
+	color: #00ff00;
+}
+
+/*animations*/
 .rotate {
 	-webkit-animation: cssAnimation 1.6117s 1 ease;
 }
