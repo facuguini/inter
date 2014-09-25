@@ -128,6 +128,14 @@ body {
  	margin-top: 2%;
  }
 
+ .add {
+ 	color:#00d900;
+ 	text-align: left;
+ }
+ .add:active {
+ 	color:#008a00;
+ 	text-align: left;
+ }
 .fechaweb {
  	height: 100%;
  	width: 90%;

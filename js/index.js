@@ -47,6 +47,11 @@ $( document ).ready(function() {
 	$("#iwfecha").click(function() {
 		$('#imgModal').modal('toggle');
 	})
+
+	$("#addbtn").click(function(){
+		$("#ljug").append("<p class='wtext'>"+$("#nInv").val()+"</p>");
+		$("#nInv").val("");
+	})
 });
 
 function tabs(id) {
