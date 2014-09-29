@@ -31,7 +31,7 @@ $( document ).ready(function() {
 	});
 	$("#rfecha").click(function(){
 		animate($(this), "rotate");
-		//DownloadFile("http://360sports.com.ar/images/horarios_domingos.jpg", "images", "horarios_domingos");
+		DownloadFile("http://360sports.com.ar/images/horarios_domingos.jpg", "images", "horarios_domingos");
 		$('#iwfecha').attr("src","images/horarios_domingos.jpg");
 		$('#fechaweb').effect("fade");
 		setTimeout(function() {$( "#fechaweb" ).fadeIn();}, 350 );
@@ -89,7 +89,6 @@ $( document ).ready(function() {
 	DownloadFile("http://360sports.com.ar/images/horarios_domingos.jpg", "images", "horarios_domingos");
 });
 
-
 function tabs(id) {
 	switch(id) {
 		case "fecha":
@@ -122,23 +121,30 @@ function isNullOrWhiteSpace( input ) {
 
 //First step check parameters mismatch and checking network connection if available call    download function
 function DownloadFile(URL, Folder_Name, File_Name) {
+	alert("entra en funcion")
 	if (URL == null && Folder_Name == null && File_Name == null) {
+	    alert("entra en comprobacion url carpeta y archivo")
 	    return;
 	}
 	else {
-	   	var networkState = navigator.connection.type;
-	    if (networkState == Connection.NONE) {
+		alert("entra en network")
+	   	var networkState = navigator.onLine;
+	    if (!networkState) {
+	    	alert("no encuentra conexion")
 	        return;
 	    } else {
+
 	        download(URL, Folder_Name, File_Name); //If available download function call
 	    }
 	}
 }
 
 function download(URL, Folder_Name, File_Name) {
+	alert("entra en funcion download")
     window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fileSystemSuccess, fileSystemFail);
 
 function fileSystemSuccess(fileSystem) {
+	alert("entra en success")
     var download_link = encodeURI(URL);
     ext = download_link.substr(download_link.lastIndexOf('.') + 1); //Get extension of URL
 
@@ -149,6 +155,7 @@ function fileSystemSuccess(fileSystem) {
 
     fp = fp + "/" + Folder_Name + "/" + File_Name + "." + ext; // fullpath and name of the file which we want to give
     // download function call
+    alert("entra en armado path")
     filetransfer(download_link, fp);
 }
 
@@ -165,6 +172,7 @@ function onDirectoryFail(error) {
 }
 
 function filetransfer(download_link, fp) {
+alert("entra en funcion filetransfer")
 var fileTransfer = new FileTransfer();
 // File download function with URL and local path
 fileTransfer.download(download_link, fp,
