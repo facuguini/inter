@@ -51,7 +51,7 @@ $( document ).ready(function() {
 
 	$("#addbtn").click(function(){
 		listLength++;
-		if(!isNullOrWhiteSpace($("#nInv").val())) {
+		if(!isNullOrWhiteSpace($("#nInv").val()) && (($("#nInv").val().length<30) && ($("#nInv").val().length>2))) {
 			$("#ljug").append("<div id='inv'><span class='wtext'>"+$("#nInv").val()+"</span><span id='rem' class='wtext glyphicon glyphicon-remove'></span><br></div>");
 			$("#nInv").val("");
 		} else {
