@@ -41,9 +41,8 @@ $( document ).ready(function() {
 	});
 	$("#iwfecha").click(function() { $('#imgModal').modal('toggle'); })
 	$("#addbtn").click(function(){
-		listLength++;
 		if(!isNullOrWhiteSpace($("#nInv").val()) && (($("#nInv").val().length<30) && ($("#nInv").val().length>2))) {
-			$.get("http://stingo.com.ar:9290/user/"+$("#nInv").val());
+			dbrequest("http://stingo.com.ar:9290/user/"+$("#nInv").val(), "GET");
 			$("#rjug").click();
 			$("#nInv").val("");
 		} else {
@@ -51,7 +50,7 @@ $( document ).ready(function() {
 		}
 	});
 	$("#ljug").on('click', '.del', function () {
-		//$.post("http://stingo.com.ar:9290/user/", $(this).closest('.name').text(), delete);
+		dbrequest("http://stingo.com.ar:9290/user/"+$(this).closest('.name').text(),"DELETE");
 		$(this).closest('.name').remove();
 	});
 });
@@ -106,5 +105,12 @@ function iframeLoad(iframe) {
 		iframe.contents().find('.col1').css("width", "40%");		
 		iframe.contents().find('.col2, .col8, .col10').css("width", "20%");
 		iframe.contents().find(".col").closest("a").remove();
+	})
+}
+
+function dbrequest (_url, _type) {
+	jQuery.ajax( {
+		url: _url, 
+		type: _type
 	})
 }
