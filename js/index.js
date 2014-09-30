@@ -25,14 +25,16 @@ $( document ).ready(function() {
 			iframe.contents().find('.titles').css("width", "100%");
 			iframe.contents().find('.col1').css("width", "40%");		
 			iframe.contents().find('.col2, .col8, .col10').css("width", "20%");
+			iframe.contents().find(".col").children.remove();
 		})
 		$('#tablaweb').effect("fade");
 		setTimeout(function() {$( "#tablaweb" ).fadeIn();}, 350 );
 	});
 	$("#rfecha").click(function(){
 		animate($(this), "rotate");
-		download("http://360sports.com.ar/images/horarios_domingos.jpg", "file:///storage/sdcard0/intergarchapp/images/horarios_domingos.jpg");
-		$('#iwfecha').attr("src","file:///storage/sdcard0/intergarchapp/images/horarios_domingos.jpg");
+		//download("http://360sports.com.ar/images/horarios_domingos.jpg", "file:///storage/sdcard0/intergarchapp/images/horarios_domingos.jpg");
+		//$('#iwfecha').attr("src","file:///storage/sdcard0/intergarchapp/images/horarios_domingos.jpg");
+		$('#iwfecha').attr("src","http://360sports.com.ar/images/horarios_domingos.jpg");
 		$('#fechaweb').effect("fade");
 		setTimeout(function() {$( "#fechaweb" ).fadeIn();}, 350 );
 	});
@@ -50,6 +52,7 @@ $( document ).ready(function() {
 		iframe.contents().find('.titles').css("width", "100%");
 		iframe.contents().find('.col1').css("width", "40%");		
 		iframe.contents().find('.col2, .col8, .col10').css("width", "20%");
+		iframe.contents().find(".col").closest("a").remove();
 	})
 
 	$("#iwfecha").click(function() {
@@ -70,6 +73,41 @@ $( document ).ready(function() {
 			setTimeout(function() {$("#nInv").removeClass("invalidtxt");}, 1500 );
 		}
 	})
+
+
+
+
+
+	alert(http.get('http://stingo.com.ar:9290/getjugadores'))
+	alert($.get('http://stingo.com.ar:9290/getjugadores'))
+	alert(httpGet('http://stingo.com.ar:9290/getjugadores'))
+	aClient = new HttpClient();
+	aClient.get('http://stingo.com.ar:9290/getjugadores', function(answer) {
+    	alert(answer);
+	});
+	new Ajax.Request( 'http://stingo.com.ar:9290/getjugadores', {
+	  method:  'get',
+	  parameters:  { 'param1': 'value1'},
+	  onSuccess:  function(response){
+	    alert(response.responseText);
+	  },
+	  onFailure:  function(){
+	    alert('ERROR');
+	  }
+	});
+
+
+
+
+
+
+
+	var jugadores = $.get('stingo.com.ar:9290/getjugadores').success(
+		function(data) {
+			for(var i in data) {
+				$("#ljug").append("<span class='wtext'>"+data[i].Nombre+"</span><span id='rem' class='wtext glyphicon glyphicon-remove'></span><br>");
+			}
+		})
 	for(i=1;i<listLength+1;i++) {
 		$("#rem"+i).click(function() {
 			if($(this).hasClass("glyphicon-remove")) {
@@ -84,7 +122,7 @@ $( document ).ready(function() {
 	$("#inv").on( 'click', '.glyphicon-remove', function () {
 		$(this).closest("div").remove();
 	})
-	document.addEventListener("deviceready", download("http://360sports.com.ar/images/horarios_domingos.jpg", "file:///storage/sdcard0/intergarchapp/images/horarios_domingos.jpg"), false);
+	//document.addEventListener("deviceready", download("http://360sports.com.ar/images/horarios_domingos.jpg", "file:///storage/sdcard0/intergarchapp/images/horarios_domingos.jpg"), false);
 });
 
 function tabs(id) {
@@ -118,7 +156,7 @@ function isNullOrWhiteSpace( input ) {
     return input.replace(/\s/g, '').length < 1;
 }
 
-function download(url, filePath) {
+/*function download(url, filePath) {
 	alert("entró")
 	window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
 window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,
@@ -142,4 +180,27 @@ window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,
 			fail); 
 		}, 
 	fail);
+}*/
+
+function httpGet(theUrl)
+{
+    var xmlHttp = null;
+
+    xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", theUrl, false );
+    xmlHttp.send( null );
+    return xmlHttp.responseText;
+}
+
+var HttpClient = function() {
+    this.get = function(aUrl, aCallback) {
+        anHttpRequest = new XMLHttpRequest();
+        anHttpRequest.onreadystatechange = function() { 
+            if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
+                aCallback(anHttpRequest.responseText);
+        }
+
+        anHttpRequest.open( "GET", aUrl, true );            
+        anHttpRequest.send( null );
+    }
 }
