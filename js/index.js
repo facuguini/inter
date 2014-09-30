@@ -37,7 +37,7 @@ $( document ).ready(function() {
 		$('#ljug span').remove();
 		$('#ljug br').remove();
 		jugLoad();
-		setTimeout(function() {$( "#ljug" ).fadeIn();}, 350 );
+		setTimeout(function() {$( "#ljug" ).fadeIn();}, 0 );
 	});
 	$("#iwfecha").click(function() { $('#imgModal').modal('toggle'); })
 	$("#addbtn").click(function(){
@@ -49,7 +49,11 @@ $( document ).ready(function() {
 		} else {
 			animate($("#nInv"), "invalidtxt");
 		}
-	})
+	});
+	$("#ljug").on('click', '.del', function () {
+		//$.post("http://stingo.com.ar:9290/user/", $(this).closest('.name').text(), delete);
+		$(this).closest('.name').remove();
+	});
 });
 
 function tabs(id) {
@@ -66,7 +70,7 @@ function tabs(id) {
 			break;
 		case "jug":
 			$("#jug").show()
-			$("#tabla").hide();
+			$("#tabla").hide()
 			$("#fecha").hide()
 			break;
 	}
@@ -89,7 +93,7 @@ function isNullOrWhiteSpace( input ) {
 function jugLoad() {
 	$.get( "http://stingo.com.ar:9290/getJugadores", function( data ) {
  		for (i=0;i<data.length;i++) { 
- 			$("#ljug").append("<span class='wtext'>"+data[i].Nombre+"</span><span class='check wtext glyphicon glyphicon-remove'></span><br>");
+ 			$("#ljug").append("<span class='wtext name'>"+data[i].Nombre+"<span class='wtext glyphicon glyphicon-remove del'></span><br></span>");
 		}
 	});
 }
