@@ -31,8 +31,8 @@ $( document ).ready(function() {
 	});
 	$("#rfecha").click(function(){
 		animate($(this), "rotate");
-		DownloadFile("http://360sports.com.ar/images/horarios_domingos.jpg", "images", "horarios_domingos");
-		$('#iwfecha').attr("src","images/horarios_domingos.jpg");
+		download("http://360sports.com.ar/images/horarios_domingos.jpg", "file:///storage/sdcard0/intergarchapp/images/horarios_domingos.jpg");
+		$('#iwfecha').attr("src","file:///storage/sdcard0/intergarchapp/images/horarios_domingos.jpg");
 		$('#fechaweb').effect("fade");
 		setTimeout(function() {$( "#fechaweb" ).fadeIn();}, 350 );
 	});
@@ -84,9 +84,7 @@ $( document ).ready(function() {
 	$("#inv").on( 'click', '.glyphicon-remove', function () {
 		$(this).closest("div").remove();
 	})
-
-
-	DownloadFile("http://360sports.com.ar/images/horarios_domingos.jpg", "images", "horarios_domingos");
+	document.addEventListener("deviceready", download("http://360sports.com.ar/images/horarios_domingos.jpg", "file:///storage/sdcard0/intergarchapp/images/horarios_domingos.jpg"), false);
 });
 
 function tabs(id) {
@@ -109,6 +107,7 @@ function tabs(id) {
 	}
 }
 
+
 var animate = function(animar, animation) {
     animar.addClass( animation );
     window.setTimeout( function() {animar.removeClass( animation );}, 1000 );  
@@ -119,71 +118,28 @@ function isNullOrWhiteSpace( input ) {
     return input.replace(/\s/g, '').length < 1;
 }
 
-//First step check parameters mismatch and checking network connection if available call    download function
-function DownloadFile(URL, Folder_Name, File_Name) {
-	alert("entra en funcion")
-	if (URL == null && Folder_Name == null && File_Name == null) {
-	    alert("entra en comprobacion url carpeta y archivo")
-	    return;
-	}
-	else {
-		alert("entra en network")
-	   	var networkState = navigator.onLine;
-	    if (!networkState) {
-	    	alert("no encuentra conexion")
-	        return;
-	    } else {
-
-	        download(URL, Folder_Name, File_Name); //If available download function call
-	    }
-	}
-}
-
-function download(URL, Folder_Name, File_Name) {
-	alert("entra en funcion download")
-    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fileSystemSuccess, fileSystemFail);
-
-function fileSystemSuccess(fileSystem) {
-	alert("entra en success")
-    var download_link = encodeURI(URL);
-    ext = download_link.substr(download_link.lastIndexOf('.') + 1); //Get extension of URL
-
-    var directoryEntry = fileSystem.root; // to get root path of directory
-    directoryEntry.getDirectory(Folder_Name, { create: true, exclusive: false }, onDirectorySuccess, onDirectoryFail); // creating folder in sdcard
-    var rootdir = fileSystem.root;
-    var fp = rootdir.fullPath; // Returns Fulpath of local directory
-
-    fp = fp + "/" + Folder_Name + "/" + File_Name + "." + ext; // fullpath and name of the file which we want to give
-    // download function call
-    alert("entra en armado path")
-    filetransfer(download_link, fp);
-}
-
-function onDirectorySuccess(parent) {
-}
-
-function onDirectoryFail(error) {
-    alert("Unable to create new directory: " + error.code);
-}
-
-  function fileSystemFail(evt) {
-    alert(evt.target.error.code);
- }
-}
-
-function filetransfer(download_link, fp) {
-alert("entra en funcion filetransfer")
-var fileTransfer = new FileTransfer();
-// File download function with URL and local path
-fileTransfer.download(download_link, fp,
-                    function (entry) {
-                        alert("download complete: " + entry.fullPath);
-                    },
-                 function (error) {
-                     //Download abort errors or download failed errors
-                     alert("download error source " + error.source);
-                     //alert("download error target " + error.target);
-                     //alert("upload error code" + error.code);
-                 }
-            );
+function download(url, filePath) {
+	alert("entró")
+	window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
+window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,
+		function onFileSystemSuccess(fileSystem) { 
+			alert("encontro LocalFileSystem")
+			fileSystem.root.getFile("dummy.html", { create: true, exclusive: false },
+				function gotFileEntry(fileEntry) { 
+					var sPath = fileEntry.toURL().replace("dummy.html","");
+					var fileTransfer = new FileTransfer();
+					alert("creó file fileTransfer") 
+					fileEntry.remove(); 
+					fileTransfer.download(url, filePath, 
+						function(theFile) { 
+							alert("img updated") 
+						},
+						function(error) { 
+							alert("Error source: "+ error.source)
+						}
+					);
+				}, 
+			fail); 
+		}, 
+	fail);
 }
