@@ -1,16 +1,20 @@
+var network = true;
+
 $( document ).ready(function() {
 	new FastClick(document.body);
-	jugLoad();
 	iframeLoad($('#itable'));
 	$("#bFecha").toggleClass("tabsel");
-	var network = true;
-	document.addEventListener("offline", onOffline, false);
+	setInterval(jugLoad, 5000);
 
 	if(network) {
 		$("#itable").attr('src', 'http://www.datafutbol.net/comunidad/campeonato/tablas/545#tabla-posiciones-1692');
 		$("#iwfecha").attr('src','http://www.360sports.com.ar/images/horarios_domingos.jpg');
 	} else {
 		alert("no hay internesss, no hay data")
+		$("#itable").hide();
+		$("#iwfecha").hide();
+		$("#tablaweb").append("<span class='wtext'>Error. Estas conectado a internet boludo?</span>");
+		$("#fechaweb").append("<span class='wtext'>Error. Estas conectado a internet boludo?</span>");
 	}
 
 	$("#bFecha").click(function () {
@@ -26,13 +30,17 @@ $( document ).ready(function() {
 	$("#bJug").click(function () {
 		$(".tab").removeClass("tabsel");
 		$(this).toggleClass("tabsel");
-		tabs("jug");	
+		tabs("jug");
+		jugLoad();	
 	});
 	$("#rtabla").click(function(){
 		if(network) {
 			animate($(this), "rotate");
+			$("#itable").attr('src', 'http://www.datafutbol.net/comunidad/campeonato/tablas/545#tabla-posiciones-1692');
 			iframeLoad($('#itable'));
 			$('#tablaweb').effect("fade");
+			$("#itable").show();
+			$("#tablaweb span").remove();
 			setTimeout(function() {$( "#tablaweb" ).fadeIn();}, 350 );
 		} else {
 			alert("no hay interne amigo");
@@ -40,9 +48,11 @@ $( document ).ready(function() {
 	});
 	$("#rfecha").click(function(){
 		if(network) {
+			$('#fechaweb').effect("fade");
 			animate($(this), "rotate");
 			$('#iwfecha').attr("src","http://360sports.com.ar/images/horarios_domingos.jpg");
-			$('#fechaweb').effect("fade");
+			$("#iwfecha").show();
+			$("#fechaweb span").remove();
 			setTimeout(function() {$( "#fechaweb" ).fadeIn();}, 350 );
 		} else {
 			alert("no hay interne amigo");
@@ -51,11 +61,12 @@ $( document ).ready(function() {
 	$("#rjug").click(function(){
 		if(network) {	
 			animate($(this), "rotate");
-			$('#ljug').effect("fade");
-			$('#ljug span').remove();
-			$('#ljug br').remove();
-			jugLoad();
-			setTimeout(function() {$( "#ljug" ).fadeIn();}, 0 );
+			$('#ljug span').effect("fade");
+			setTimeout(function() { 
+				$('#ljug span').remove();
+				$('#ljug br').remove();
+			}, 150);
+			setTimeout(jugLoad, 350);
 		} else {
 			alert("no hay interne amigo");
 		}
@@ -78,6 +89,8 @@ $( document ).ready(function() {
 		$(this).toggleClass("glyphicon-remove");
 		$(this).toggleClass("glyphicon-ok");
 	});
+
+	$("#preload").hide();
 });
 
 function tabs(id) {
@@ -117,6 +130,7 @@ function isNullOrWhiteSpace( input ) {
 function jugLoad() {
 	var request = $.get( "http://stingo.com.ar:9290/getJugadores");
 	request.success(function(data) {
+		network = true;
 		$("#ljug").html("");
   		for (i=0;i<data.length;i++) {
  			if (!data[i].Checked) {
@@ -127,8 +141,9 @@ function jugLoad() {
 		}
 	});
 	request.error(function(xhr, status, error) {
+		network = false;
 		 $("#ljug").html("");
-	     $("#ljug").append("<span>Error. Estas conectado a internet boludo?</span>  "+ error);
+	     $("#ljug").append("<span class='wtext'>Error. Estas conectado a internet boludo?</span>  "+ error);
 	});	
 }
 
@@ -148,10 +163,4 @@ function dbrequest (_url, _type) {
 		url: _url, 
 		type: _type
 	})
-}
-
-
-function onOffline() {
-	network = false;
-    alert("offline");
 }
