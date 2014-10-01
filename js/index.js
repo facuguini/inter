@@ -4,6 +4,7 @@ $( document ).ready(function() {
 	new FastClick(document.body);
 	iframeLoad($('#itable'));
 	$("#bFecha").toggleClass("tabsel");
+	jugLoad();
 	setInterval(jugLoad, 5000);
 
 	if(network) {
@@ -30,8 +31,7 @@ $( document ).ready(function() {
 	$("#bJug").click(function () {
 		$(".tab").removeClass("tabsel");
 		$(this).toggleClass("tabsel");
-		tabs("jug");
-		jugLoad();	
+		tabs("jug");	
 	});
 	$("#rtabla").click(function(){
 		if(network) {
@@ -74,7 +74,7 @@ $( document ).ready(function() {
 	$("#iwfecha").click(function() { $('#imgModal').modal('toggle'); })
 	$("#addbtn").click(function(){
 		if(!isNullOrWhiteSpace($("#nInv").val()) && (($("#nInv").val().length<30) && ($("#nInv").val().length>2))) {
-			dbrequest("http://stingo.com.ar:9290/user/"+$("#nInv").val(), "GET");
+			dbrequest("http://stingo.com.ar:9290/user/"+$("#nInv").val(), "POST");
 			$("#rjug").click();
 			$("#nInv").val("");
 		} else {
@@ -86,8 +86,12 @@ $( document ).ready(function() {
 		$(this).closest('.name').remove();
 	});
 	$("#ljug").on('click', '.check', function () {
-		$(this).toggleClass("glyphicon-remove");
-		$(this).toggleClass("glyphicon-ok");
+		if($(this).hasClass("glyphicon-remove")) {
+			dbrequest("http://stingo.com.ar:9290/check/"+$(this).closest('.name').text()+"/true","GET")
+		} else {
+			dbrequest("http://stingo.com.ar:9290/user/"+$(this).closest('.name').text()+"/false","GET")
+		}
+		jugLoad();
 	});
 
 	$("#preload").hide();
