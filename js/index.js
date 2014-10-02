@@ -87,9 +87,9 @@ $( document ).ready(function() {
 	});
 	$("#ljug").on('click', '.check', function () {
 		if($(this).hasClass("glyphicon-remove")) {
-			dbrequest("http://stingo.com.ar:9290/check/"+$(this).closest('.name').text()+"/true","GET")
-		} else {
-			dbrequest("http://stingo.com.ar:9290/user/"+$(this).closest('.name').text()+"/false","GET")
+			dbrequest("http://stingo.com.ar:9290/check/"+$(this).closest('.name').text()+"/true","POST")
+		} else if ($(this).hasClass("glyphicon-ok")){
+			dbrequest("http://stingo.com.ar:9290/check/"+$(this).closest('.name').text()+"/false","POST")
 		}
 		jugLoad();
 	});
