@@ -222,6 +222,24 @@ body {
   border: 1px solid #ec514e;
 }
 
+.rmark {
+	background-color: #ff0000;
+}
+
+.name {
+	font-size: 140%;
+}
+
+.jugtitle {
+	margin-top:15px; 
+	font-size: 190%;
+}
+
+#save #edit #cancel {
+	text-align: right;
+	size: 20%;
+}
+
 /*animations*/
 .rotate {
 	-webkit-animation: cssAnimation 1.6117s 1 ease;

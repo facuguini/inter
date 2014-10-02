@@ -1,12 +1,18 @@
-var network = true;
-
 $( document ).ready(function() {
 	new FastClick(document.body);
 	iframeLoad($('#itable'));
 	$("#bFecha").toggleClass("tabsel");
 	jugLoad();
-	setInterval(jugLoad, 5000);
+	setInterval(function() {
+			if(!paused){
+				jugLoad();
+			}
+		}, 10000);
 	var delJugadores = [];
+	var network = true;
+	var paused = false;
+	$("#save").hide();
+	$("#cancel").hide();
 
 	if(network) {
 		$("#itable").attr('src', 'http://www.datafutbol.net/comunidad/campeonato/tablas/545#tabla-posiciones-1692');
@@ -83,16 +89,18 @@ $( document ).ready(function() {
 		}
 	});
 	$("#edit").click(function() {
+		paused = true;
 		$('#ljug .check').not('.glyphicon-remove').removeClass('glyphicon-ok');
 		$('#ljug .check').not('.glyphicon-remove').addClass('glyphicon-remove');
 		$('#ljug .glyphicon-remove').addClass('bounce');
 		$('#ljug .glyphicon-remove').addClass('del');
-
+		$('#ljug .glyphicon-remove').removeClass('check');
+		$("#save").show();
+		$("#cancel").show();
 	});
 	$("#ljug").on('click', '.del', function () {
-		//dbrequest("http://stingo.com.ar:9290/user/"+$(this).closest('.name').text(),"DELETE");
-		console.log($(this).closest('.name').text())
-		$(this).closest('.name').remove();
+		delJugadores[delJugadores.length] = $(this).closest('.name').text();
+		$(this).closest('.name').addClass("rmark");
 	});
 	$("#ljug").on('click', '.check', function () {
 		if($(this).hasClass("glyphicon-remove")) {
@@ -101,6 +109,26 @@ $( document ).ready(function() {
 			dbrequest("http://stingo.com.ar:9290/check/"+$(this).closest('.name').text()+"/false","POST")
 		}
 		jugLoad();
+	});
+	$("#save").click(function(){
+		for(var i in delJugadores) {
+			dbrequest("http://stingo.com.ar:9290/user/"+delJugadores[i],"DELETE");
+		}
+		$(".rmark").remove();
+		delJugadores = [];
+		$("#save").hide();
+		$("#cancel").hide();
+		setTimeout(function(){
+			jugLoad();
+			paused = false;}
+		, 1500);
+	})
+	$("#cancel").click(function() {
+		jugLoad();
+		delJugadores = [];
+		paused = false;
+		$("#save").hide();
+		$("#cancel").hide();
 	});
 
 	$("#preload").hide();
