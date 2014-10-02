@@ -6,6 +6,7 @@ $( document ).ready(function() {
 	$("#bFecha").toggleClass("tabsel");
 	jugLoad();
 	setInterval(jugLoad, 5000);
+	var delJugadores = [];
 
 	if(network) {
 		$("#itable").attr('src', 'http://www.datafutbol.net/comunidad/campeonato/tablas/545#tabla-posiciones-1692');
@@ -82,7 +83,11 @@ $( document ).ready(function() {
 		}
 	});
 	$("#edit").click(function() {
-		$('#ljug check').not('.glyphicon-remove').removeClass('glyphicon-ok');
+		$('#ljug .check').not('.glyphicon-remove').removeClass('glyphicon-ok');
+		$('#ljug .check').not('.glyphicon-remove').addClass('glyphicon-remove');
+		$('#ljug .glyphicon-remove').addClass('bounce');
+		$('#ljug .glyphicon-remove').addClass('del');
+
 	});
 	$("#ljug").on('click', '.del', function () {
 		//dbrequest("http://stingo.com.ar:9290/user/"+$(this).closest('.name').text(),"DELETE");
