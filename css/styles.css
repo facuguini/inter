@@ -1,5 +1,6 @@
 body {
 	background: #000000;
+
 }
 
 #preload {
@@ -228,4 +229,23 @@ body {
 @-webkit-keyframes cssAnimation {
 	from { -webkit-transform: rotate(4deg);}
 	to { -webkit-transform: rotate(360deg);}
+}
+
+.bounce {
+-webkit-animation: cssAnimation 0.4829s infinite ease-in-out;
+-moz-animation: cssAnimation 0.4829s infinite ease-in-out;
+-o-animation: cssAnimation 0.4829s infinite ease-in-out;
+}
+@-webkit-keyframes cssAnimation {
+from { -webkit-transform: rotate(0deg) scale(0.989) skew(18deg) translate(0px); }
+to { -webkit-transform: rotate(0deg) scale(0.989) skew(-21deg) translate(0px); }
+}
+@-moz-keyframes cssAnimation {
+from { -moz-transform: rotate(0deg) scale(0.989) skew(18deg) translate(0px); }
+to { -moz-transform: rotate(0deg) scale(0.989) skew(-21deg) translate(0px); }
+}
+@-o-keyframes cssAnimation {
+from { -o-transform: rotate(0deg) scale(0.989) skew(18deg) translate(0px); }
+to { -o-transform: rotate(0deg) scale(0.989) skew(-21deg) translate(0px); }
+}
 }

@@ -81,8 +81,12 @@ $( document ).ready(function() {
 			animate($("#nInv"), "invalidtxt");
 		}
 	});
+	$("#edit").click(function() {
+		$('#ljug check').not('.glyphicon-remove').removeClass('glyphicon-ok');
+	});
 	$("#ljug").on('click', '.del', function () {
-		dbrequest("http://stingo.com.ar:9290/user/"+$(this).closest('.name').text(),"DELETE");
+		//dbrequest("http://stingo.com.ar:9290/user/"+$(this).closest('.name').text(),"DELETE");
+		console.log($(this).closest('.name').text())
 		$(this).closest('.name').remove();
 	});
 	$("#ljug").on('click', '.check', function () {
