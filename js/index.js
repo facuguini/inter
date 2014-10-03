@@ -1,3 +1,4 @@
+
 $( document ).ready(function() {
 	new FastClick(document.body);
 	iframeLoad($('#itable'));
@@ -88,6 +89,13 @@ $( document ).ready(function() {
 			animate($("#nInv"), "invalidtxt");
 		}
 	});
+
+	$('#nInv').keydown(function(event) {
+       if (event.keyCode == 13) {
+           $("#addbtn").click();
+        }
+   });
+
 	$("#edit").click(function() {
 		paused = true;
 		$('#ljug .check').not('.glyphicon-remove').removeClass('glyphicon-ok');
@@ -99,8 +107,20 @@ $( document ).ready(function() {
 		$("#cancel").show();
 	});
 	$("#ljug").on('click', '.del', function () {
-		delJugadores[delJugadores.length] = $(this).closest('.name').text();
-		$(this).closest('.name').addClass("rmark");
+		$(this).closest('.name').toggleClass("rmark");
+		var valid = true;
+		for(var i in delJugadores) {
+			console.log($(this).closest('.name').text()+"==="+delJugadores[i])
+			if ($(this).closest('.name').text()===delJugadores[i]) {
+				valid = false;
+				delJugadores.splice(i,1);
+			}
+		}
+		console.log(valid)
+		if (valid) {
+			delJugadores[delJugadores.length] = $(this).closest('.name').text();
+		}
+		console.log(delJugadores)
 	});
 	$("#ljug").on('click', '.check', function () {
 		if($(this).hasClass("glyphicon-remove")) {
@@ -130,7 +150,6 @@ $( document ).ready(function() {
 		$("#save").hide();
 		$("#cancel").hide();
 	});
-
 	$("#preload").hide();
 });
 
@@ -171,6 +190,7 @@ function isNullOrWhiteSpace( input ) {
 function jugLoad() {
 	var request = $.get( "http://stingo.com.ar:9290/getJugadores");
 	request.success(function(data) {
+		cont=0;
 		network = true;
 		$("#ljug").html("");
   		for (i=0;i<data.length;i++) {
@@ -178,8 +198,10 @@ function jugLoad() {
  				$("#ljug").append("<span class='wtext name'>"+data[i].Nombre + "<span class='wtext glyphicon glyphicon-remove check'></span><br></span>");
 			} else {
 				$("#ljug").append("<span class='wtext name'>"+data[i].Nombre + "<span class='wtext glyphicon glyphicon-ok check'></span><br></span>");
+				cont++;
 			}
 		}
+		$("#cont").text(":"+cont);
 	});
 	request.error(function(xhr, status, error) {
 		network = false;
