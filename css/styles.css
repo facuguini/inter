@@ -31,6 +31,10 @@ body {
  	font-family: roman;
  }
 
+ hr {
+ 	margin-top: 1%;
+ }
+
  .wtext {
  	color: #ffffff;
  	font-size: 100%;
@@ -235,9 +239,29 @@ body {
 	font-size: 190%;
 }
 
-#save #edit #cancel {
-	text-align: right;
-	size: 20%;
+#cancel {
+	min-width: 45px;
+	margin-top: 1%;
+	padding-top: 4px;
+	padding-left: 8px;
+	padding-bottom: 4px;
+	padding-right: 8px;
+}
+
+#save {
+	min-width: 45px;
+	margin-right: 2%;
+	margin-top: 1%;
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+
+#edit {
+	font-size: 15px;
+	padding-top: 1%;
+	padding-bottom: 1%;
+	margin-bottom: 0px;
+	vertical-align: center;
 }
 
 /*animations*/
