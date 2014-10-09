@@ -82,7 +82,7 @@ $( document ).ready(function() {
 	$("#iwfecha").click(function() { $('#imgModal').modal('toggle'); })
 	$("#addbtn").click(function(){
 		if(!isNullOrWhiteSpace($("#nInv").val()) && (($("#nInv").val().length<30) && ($("#nInv").val().length>2))) {
-			dbrequest("http://stingo.com.ar:9290/user/"+$("#nInv").val(), "POST");
+			dbrequest("http://itshare.ddns.net:9290/user/"+$("#nInv").val(), "POST");
 			$("#rjug").click();
 			$("#nInv").val("");
 		} else {
@@ -105,34 +105,33 @@ $( document ).ready(function() {
 		$('#ljug .glyphicon-remove').removeClass('check');
 		$("#save").show();
 		$("#cancel").show();
+		$("#edit").attr("disabled", "disabled");
+		$("#rjug").hide();
 	});
 	$("#ljug").on('click', '.del', function () {
 		$(this).closest('.name').toggleClass("rmark");
 		var valid = true;
 		for(var i in delJugadores) {
-			console.log($(this).closest('.name').text()+"==="+delJugadores[i])
 			if ($(this).closest('.name').text()===delJugadores[i]) {
 				valid = false;
 				delJugadores.splice(i,1);
 			}
 		}
-		console.log(valid)
 		if (valid) {
 			delJugadores[delJugadores.length] = $(this).closest('.name').text();
 		}
-		console.log(delJugadores)
 	});
 	$("#ljug").on('click', '.check', function () {
 		if($(this).hasClass("glyphicon-remove")) {
-			dbrequest("http://stingo.com.ar:9290/check/"+$(this).closest('.name').text()+"/true","POST")
+			dbrequest("http://itshare.ddns.net:9290/check/"+$(this).closest('.name').text()+"/true","POST")
 		} else if ($(this).hasClass("glyphicon-ok")){
-			dbrequest("http://stingo.com.ar:9290/check/"+$(this).closest('.name').text()+"/false","POST")
+			dbrequest("http://itshare.ddns.net:9290/check/"+$(this).closest('.name').text()+"/false","POST")
 		}
 		jugLoad();
 	});
 	$("#save").click(function(){
 		for(var i in delJugadores) {
-			dbrequest("http://stingo.com.ar:9290/user/"+delJugadores[i],"DELETE");
+			dbrequest("http://itshare.ddns.net:9290/user/"+delJugadores[i],"DELETE");
 		}
 		$(".rmark").remove();
 		delJugadores = [];
@@ -142,6 +141,8 @@ $( document ).ready(function() {
 			jugLoad();
 			paused = false;}
 		, 1500);
+		$("#edit").removeAttr("disabled");   
+		$("#rjug").show();
 	})
 	$("#cancel").click(function() {
 		jugLoad();
@@ -149,6 +150,8 @@ $( document ).ready(function() {
 		paused = false;
 		$("#save").hide();
 		$("#cancel").hide();
+		$("#edit").removeAttr("disabled");
+		$("#rjug").show();
 	});
 	$("#preload").hide();
 });
@@ -188,7 +191,7 @@ function isNullOrWhiteSpace( input ) {
 }
 
 function jugLoad() {
-	var request = $.get( "http://stingo.com.ar:9290/getJugadores");
+	var request = $.get( "http://itshare.ddns.net:9290/getjugadores");
 	request.success(function(data) {
 		cont=0;
 		network = true;
