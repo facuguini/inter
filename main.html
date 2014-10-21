@@ -44,9 +44,11 @@
 						<span id="rtabla" class="glyphicon glyphicon-refresh refresh"></span>
 					</div>
 				</div>
-				<div id="tablaweb" class="row contenido">
-					<div class="tablaweb">
-						<iframe id="itable" scrolling="no" src="" class="iframe"></iframe>
+				<div class="scroll">
+					<div id="tablaweb" class="row contenido">
+						<div class="tablaweb">
+							<iframe id="itable" scrolling="no" src="" class="iframe"></iframe>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -62,13 +64,18 @@
 					</div>
 				</div>
 				<div id="fechaweb" class="row contenido">
-					<div class="fechaweb">
-						<img id="iwfecha" class="imgfecha" src="">
+					<div class="scroll">
+						<div class="fechaweb">
+							<img id="iwfecha" class="imgfecha" src="">
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 
+		<div id="loader" hidden="true">
+			<img src="images/loading.gif" id="loaderimg">
+		</div>
 		<div id="jug" hidden="true">
 			<div class="container">
 				<div class="row">
@@ -84,13 +91,18 @@
 				<div class="row contenido">
 					<span class="wtext jugtitle">Jugadores<span id="cont" class="wtext"></span></span><button id="edit" type='button' class='pull-right topcoat-button'>Edit</button>
 					<hr>
-					<div id="ljug">
+					<div class="scroll">
+						<div id="ljug">
 
+						</div>
 					</div>
 					<button id="save" type='button' class='btn btn-success'>Save</button><button id="cancel" type='button' class='btn btn-default'>Cancel</button>
+					<button id="dall"> Delete All </button>
+					<button id="rall"> Restore Last Saved </button>
 				</div>	
 				</div>
 			</div>
+
 		</div>
 
 

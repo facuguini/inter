@@ -1,5 +1,8 @@
+var refrdata = false;
 
 $( document ).ready(function() {
+	var date = new Date();
+	console.log(date.getDay())
 	new FastClick(document.body);
 	iframeLoad($('#itable'));
 	$("#bFecha").toggleClass("tabsel");
@@ -153,7 +156,15 @@ $( document ).ready(function() {
 		$("#edit").removeAttr("disabled");
 		$("#rjug").show();
 	});
+	$("#dall").click(function() {
+		dbrequest("http://itshare.ddns.net:9290/delete/all", "DELETE");
+	})
+	$("#rall").click(function() {
+		dbrequest("http://itshare.ddns.net:9290/restore/all", "POST");
+	})
+
 	$("#preload").hide();
+
 });
 
 function tabs(id) {
@@ -176,7 +187,6 @@ function tabs(id) {
 	}
 }
 
-
 var animate = function(animar, animation) {
     animar.addClass( animation );
     window.setTimeout(function() {
@@ -191,7 +201,10 @@ function isNullOrWhiteSpace( input ) {
 }
 
 function jugLoad() {
-	var request = $.get( "http://itshare.ddns.net:9290/getjugadores");
+	//$("#loader").show();
+	animate($('#rjug'), "rotate");
+	$("#edit").attr("disabled", "disabled");
+	var request = $.get("http://itshare.ddns.net:9290/getjugadores");
 	request.success(function(data) {
 		cont=0;
 		network = true;
@@ -205,12 +218,15 @@ function jugLoad() {
 			}
 		}
 		$("#cont").text(":"+cont);
+		//$("#loader").hide();
 	});
 	request.error(function(xhr, status, error) {
 		network = false;
 		 $("#ljug").html("");
 	     $("#ljug").append("<span class='wtext'>Error. Estas conectado a internet boludo?</span>  "+ error);
+		 $("#loader").hide();
 	});	
+	$("#edit").removeAttr("disabled");  
 }
 
 function iframeLoad(iframe) {
@@ -229,4 +245,7 @@ function dbrequest (_url, _type) {
 		url: _url, 
 		type: _type
 	})
+	.done(function() {
+    	jugLoad();
+    });
 }
