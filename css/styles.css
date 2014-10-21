@@ -245,7 +245,7 @@ body {
 	font-size: 190%;
 }
 
-#cancel {
+#cancel #dall {
 	min-width: 45px;
 	margin-top: 1%;
 	padding-top: 4px;
@@ -290,7 +290,7 @@ body {
 
 /*animations*/
 .rotate {
-	-webkit-animation: rotate 1.6117s 1 ease;
+	-webkit-animation: rotate 1.6117s 1 linear;
 }
 @-webkit-keyframes rotate {
 	from { -webkit-transform: rotate(4deg);}

@@ -1,12 +1,13 @@
-var refrdata = false;
-
+var conttotal;
 $( document ).ready(function() {
+	var truco = 0;
 	var date = new Date();
 	console.log(date.getDay())
 	new FastClick(document.body);
 	iframeLoad($('#itable'));
 	$("#bFecha").toggleClass("tabsel");
 	jugLoad();
+	setLoad();
 	setInterval(function() {
 			if(!paused){
 				jugLoad();
@@ -17,6 +18,19 @@ $( document ).ready(function() {
 	var paused = false;
 	$("#save").hide();
 	$("#cancel").hide();
+	$("#dall").hide();
+	$("#rall").hide();
+
+	$("#escudo").click(function(){
+		if(truco==0) {
+			setTimeout(function(){truco=0;}, 10000);
+		}
+		truco++;
+		if(truco==10) {
+			$("#dall").show();
+			$("#rall").show();
+		}
+	})
 
 	if(network) {
 		$("#itable").attr('src', 'http://www.datafutbol.net/comunidad/campeonato/tablas/545#tabla-posiciones-1692');
@@ -71,7 +85,6 @@ $( document ).ready(function() {
 	});
 	$("#rjug").click(function(){
 		if(network) {	
-			animate($(this), "rotate");
 			$('#ljug span').effect("fade");
 			setTimeout(function() { 
 				$('#ljug span').remove();
@@ -100,16 +113,18 @@ $( document ).ready(function() {
    });
 
 	$("#edit").click(function() {
-		paused = true;
-		$('#ljug .check').not('.glyphicon-remove').removeClass('glyphicon-ok');
-		$('#ljug .check').not('.glyphicon-remove').addClass('glyphicon-remove');
-		$('#ljug .glyphicon-remove').addClass('bounce');
-		$('#ljug .glyphicon-remove').addClass('del');
-		$('#ljug .glyphicon-remove').removeClass('check');
-		$("#save").show();
-		$("#cancel").show();
-		$("#edit").attr("disabled", "disabled");
-		$("#rjug").hide();
+		if(conttotal>0) {
+			paused = true;
+			$('#ljug .check').not('.glyphicon-remove').removeClass('glyphicon-ok');
+			$('#ljug .check').not('.glyphicon-remove').addClass('glyphicon-remove');
+			$('#ljug .glyphicon-remove').addClass('bounce');
+			$('#ljug .glyphicon-remove').addClass('del');
+			$('#ljug .glyphicon-remove').removeClass('check');
+			$("#save").show();
+			$("#cancel").show();
+			$("#edit").attr("disabled", "disabled");
+			$("#rjug").hide();
+		}
 	});
 	$("#ljug").on('click', '.del', function () {
 		$(this).closest('.name').toggleClass("rmark");
@@ -130,7 +145,6 @@ $( document ).ready(function() {
 		} else if ($(this).hasClass("glyphicon-ok")){
 			dbrequest("http://itshare.ddns.net:9290/check/"+$(this).closest('.name').text()+"/false","POST")
 		}
-		jugLoad();
 	});
 	$("#save").click(function(){
 		for(var i in delJugadores) {
@@ -138,12 +152,9 @@ $( document ).ready(function() {
 		}
 		$(".rmark").remove();
 		delJugadores = [];
+	    paused = false;
 		$("#save").hide();
 		$("#cancel").hide();
-		setTimeout(function(){
-			jugLoad();
-			paused = false;}
-		, 1500);
 		$("#edit").removeAttr("disabled");   
 		$("#rjug").show();
 	})
@@ -202,31 +213,51 @@ function isNullOrWhiteSpace( input ) {
 
 function jugLoad() {
 	//$("#loader").show();
-	animate($('#rjug'), "rotate");
+	$('#rjug').addClass("rotate");
 	$("#edit").attr("disabled", "disabled");
 	var request = $.get("http://itshare.ddns.net:9290/getjugadores");
 	request.success(function(data) {
+		conttotal=0;
 		cont=0;
 		network = true;
 		$("#ljug").html("");
   		for (i=0;i<data.length;i++) {
  			if (!data[i].Checked) {
+ 				conttotal++;
  				$("#ljug").append("<span class='wtext name'>"+data[i].Nombre + "<span class='wtext glyphicon glyphicon-remove check'></span><br></span>");
 			} else {
 				$("#ljug").append("<span class='wtext name'>"+data[i].Nombre + "<span class='wtext glyphicon glyphicon-ok check'></span><br></span>");
+				conttotal++;
 				cont++;
 			}
 		}
 		$("#cont").text(":"+cont);
 		//$("#loader").hide();
+		$('#rjug').removeClass("rotate");
 	});
 	request.error(function(xhr, status, error) {
 		network = false;
 		 $("#ljug").html("");
 	     $("#ljug").append("<span class='wtext'>Error. Estas conectado a internet boludo?</span>  "+ error);
-		 $("#loader").hide();
+	     $('#rjug').removeClass("rotate");
+		 //$("#loader").hide();
 	});	
 	$("#edit").removeAttr("disabled");  
+}
+
+function setLoad() {
+	var request = $.get("http://itshare.ddns.net:9290/getsettings");
+	request.success(function(data) {
+		network = true;
+		for (i in data) {
+			var value = JSON.stringify(data[i].value)
+			localStorage.setItem(data[i].name, value);
+		}
+	})
+	request.error(function(xhr, status, error) {
+		network = false;
+		console.log("Error en obtener settings: "+ error);
+	})
 }
 
 function iframeLoad(iframe) {
@@ -241,11 +272,17 @@ function iframeLoad(iframe) {
 }
 
 function dbrequest (_url, _type) {
+	$('#rjug').addClass("rotate");
 	jQuery.ajax( {
 		url: _url, 
 		type: _type
 	})
-	.done(function() {
+	.done(function(res) {
+		console.log("result: "+ res);
     	jugLoad();
-    });
+    })
+    .fail(function(err) {
+    	console.log("error: "+err);
+    })
 }
+
