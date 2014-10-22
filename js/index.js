@@ -8,6 +8,9 @@ $( document ).ready(function() {
 	$("#bFecha").toggleClass("tabsel");
 	jugLoad();
 	setLoad();
+	setInterval(function(){
+		setLoad()
+	}, 5000);
 	setInterval(function() {
 			if(!paused){
 				jugLoad();
@@ -92,6 +95,7 @@ $( document ).ready(function() {
 				$('#ljug br').remove();
 			}, 150);
 			setTimeout(jugLoad, 350);
+			setLoad();
 		} else {
 			alert("no hay interne amigo");
 		}
@@ -176,7 +180,8 @@ $( document ).ready(function() {
 	})
 
 	$("#chkhayfecha").change(function(){
-		if($(this).is(":checked")) {
+		console.log(localStorage.getItem("hayfecha"))
+		if(localStorage.getItem("hayfecha")=="true") {
 			localStorage.setItem("hayfecha", "true");
 			dbrequest("http://itshare.ddns.net:9290/settings/hayfecha/true", "POST");
 			paused = false;
@@ -190,10 +195,10 @@ $( document ).ready(function() {
 			$("#nhfecha").show();
 		}
 	})
-
 	//$("#preload").hide();
 
 });
+
 
 function tabs(id) {
 	switch(id) {
@@ -263,19 +268,16 @@ function jugLoad() {
 }
 
 function setLoad() {
-	var request = $.get("http://itshare.ddns.net:9290/getsettings");
-	request.success(function(data) {
-		network = true;
+	var request = $.get("http://itshare.ddns.net:9290/getsettings", function(data) {
 		for (i in data) {
 			var value = JSON.stringify(data[i].value)
 			localStorage.setItem(data[i].name, value);
 		}
+	});
+	request.success(function() {
+		network = true;
 		$("#chkhayfecha").prop('checked', hayfecha());
-		if($("#chkhayfecha").is(":checked")) {
-			$("#nhfecha").hide();
-		}  else {
-			$("#ljug").hide();
-		}
+		$("#chkhayfecha").change();
 	})
 	request.error(function(xhr, status, error) {
 		network = false;
