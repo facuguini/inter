@@ -72,7 +72,7 @@ $( document ).ready(function() {
 			$("#tablaweb span").remove();
 			setTimeout(function() {$( "#tablaweb" ).fadeIn();}, 350 );
 		} else {
-			alert("no hay interne amigo");
+			alert("comprate un internet, pobre");
 		}	
 	});
 	$("#rfecha").click(function(){
@@ -97,7 +97,7 @@ $( document ).ready(function() {
 			setTimeout(jugLoad, 350);
 			setLoad();
 		} else {
-			alert("no hay interne amigo");
+			alert("no tenes conexion papi");
 		}
 	});
 	$("#iwfecha").click(function() { $('#imgModal').modal('toggle'); })
@@ -179,18 +179,23 @@ $( document ).ready(function() {
 		dbrequest("http://itshare.ddns.net:9290/restore/all", "POST");
 	})
 
-	$("#chkhayfecha").change(function(){
+	$("#chkhayfecha").click(function(){
 		console.log(localStorage.getItem("hayfecha"))
-		if(localStorage.getItem("hayfecha")=="true") {
+		if($(this).is(":checked")) {
 			localStorage.setItem("hayfecha", "true");
 			dbrequest("http://itshare.ddns.net:9290/settings/hayfecha/true", "POST");
 			paused = false;
-			$("#ljug").show();
-			$("#nhfecha").hide();
 		} else {
 			localStorage.setItem("hayfecha", "false");
 			dbrequest("http://itshare.ddns.net:9290/settings/hayfecha/false", "POST");
 			paused = true;
+		}
+	})
+	$("#chkhayfecha").change(function(){
+		if($(this).is(":checked")) {
+			$("#ljug").show();
+			$("#nhfecha").hide();
+		} else {
 			$("#ljug").hide();
 			$("#nhfecha").show();
 		}
@@ -277,6 +282,11 @@ function setLoad() {
 	request.success(function() {
 		network = true;
 		$("#chkhayfecha").prop('checked', hayfecha());
+		if(localStorage.getItem("hayfecha")=="true"){
+			$("#nhfecha").hide();
+		} else {
+			$("#ljug").hide();
+		}
 		$("#chkhayfecha").change();
 	})
 	request.error(function(xhr, status, error) {
