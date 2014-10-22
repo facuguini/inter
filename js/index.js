@@ -1,4 +1,5 @@
 var conttotal;
+var refrclick = true;
 $( document ).ready(function() {
 	var truco = 0;
 	var date = new Date();
@@ -88,7 +89,7 @@ $( document ).ready(function() {
 		}
 	});
 	$("#rjug").click(function(){
-		if(network) {	
+		if(network && !refrclick) {	
 			$('#ljug span').effect("fade");
 			setTimeout(function() { 
 				$('#ljug span').remove();
@@ -180,13 +181,11 @@ $( document ).ready(function() {
 	})
 
 	$("#chkhayfecha").click(function(){
-		console.log(localStorage.getItem("hayfecha"))
 		if($(this).is(":checked")) {
-			localStorage.setItem("hayfecha", "true");
 			dbrequest("http://itshare.ddns.net:9290/settings/hayfecha/true", "POST");
+			jugLoad();
 			paused = false;
 		} else {
-			localStorage.setItem("hayfecha", "false");
 			dbrequest("http://itshare.ddns.net:9290/settings/hayfecha/false", "POST");
 			paused = true;
 		}
@@ -273,25 +272,26 @@ function jugLoad() {
 }
 
 function setLoad() {
+	$('#rjug').addClass("rotate");
 	var request = $.get("http://itshare.ddns.net:9290/getsettings", function(data) {
 		for (i in data) {
 			var value = JSON.stringify(data[i].value)
 			localStorage.setItem(data[i].name, value);
 		}
 	});
-	request.success(function() {
+	request.done(function(data) {
 		network = true;
 		$("#chkhayfecha").prop('checked', hayfecha());
-		if(localStorage.getItem("hayfecha")=="true"){
-			$("#nhfecha").hide();
-		} else {
-			$("#ljug").hide();
-		}
+
 		$("#chkhayfecha").change();
+		$('#rjug').removeClass("rotate");
+		
+		refrclick = false;
 	})
 	request.error(function(xhr, status, error) {
 		network = false;
 		console.log("Error en obtener settings: "+ error);
+		$('#rjug').removeClass("rotate");
 	})
 }
 
@@ -315,6 +315,7 @@ function dbrequest (_url, _type) {
 	.done(function(res) {
 		console.log("result: "+ res);
     	jugLoad();
+    	setLoad();
     })
     .fail(function(err) {
     	console.log("error: "+err);
