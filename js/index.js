@@ -31,7 +31,6 @@ $( document ).ready(function() {
 			$("#rall").show();
 		}
 	})
-
 	if(network) {
 		$("#itable").attr('src', 'http://www.datafutbol.net/comunidad/campeonato/tablas/545#tabla-posiciones-1692');
 		$("#iwfecha").attr('src','http://www.360sports.com.ar/images/horarios_domingos.jpg');
@@ -42,6 +41,8 @@ $( document ).ready(function() {
 		$("#tablaweb").append("<span class='wtext'>Error. Estas conectado a internet boludo?</span>");
 		$("#fechaweb").append("<span class='wtext'>Error. Estas conectado a internet boludo?</span>");
 	}
+
+
 
 	$("#bFecha").click(function () {
 		$(".tab").removeClass("tabsel");
@@ -174,7 +175,23 @@ $( document ).ready(function() {
 		dbrequest("http://itshare.ddns.net:9290/restore/all", "POST");
 	})
 
-	$("#preload").hide();
+	$("#chkhayfecha").change(function(){
+		if($(this).is(":checked")) {
+			localStorage.setItem("hayfecha", "true");
+			dbrequest("http://itshare.ddns.net:9290/settings/hayfecha/true", "POST");
+			paused = false;
+			$("#ljug").show();
+			$("#nhfecha").hide();
+		} else {
+			localStorage.setItem("hayfecha", "false");
+			dbrequest("http://itshare.ddns.net:9290/settings/hayfecha/false", "POST");
+			paused = true;
+			$("#ljug").hide();
+			$("#nhfecha").show();
+		}
+	})
+
+	//$("#preload").hide();
 
 });
 
@@ -253,6 +270,12 @@ function setLoad() {
 			var value = JSON.stringify(data[i].value)
 			localStorage.setItem(data[i].name, value);
 		}
+		$("#chkhayfecha").prop('checked', hayfecha());
+		if($("#chkhayfecha").is(":checked")) {
+			$("#nhfecha").hide();
+		}  else {
+			$("#ljug").hide();
+		}
 	})
 	request.error(function(xhr, status, error) {
 		network = false;
@@ -286,3 +309,13 @@ function dbrequest (_url, _type) {
     })
 }
 
+function hayfecha() {
+	var bool = localStorage.getItem('hayfecha');
+	if (bool=="true") {
+		return true;
+	} else if (bool == "false") {
+		return false;
+	} else {
+		console.log("error");
+	}
+}

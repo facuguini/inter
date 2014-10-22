@@ -13,9 +13,9 @@
 	</head>
 
 	<body>
-		<div id="preload">
+		<!-- <div id="preload">
  			<img src="images/preloader.gif" alt="Load Image">
-		</div>
+		</div> -->
 		<div class="container-fluid ctab">
 			<div class="col-xs-3 imgtab">
 				<img src="images/icon.png" class="imgtit" id="escudo">
@@ -73,9 +73,9 @@
 			</div>
 		</div>
 
-		<div id="loader" hidden="true">
+    <!--<div id="loader" hidden="true">
 			<img src="images/loading.gif" id="loaderimg">
-		</div>
+		</div> -->
 		<div id="jug" hidden="true">
 			<div class="container">
 				<div class="row">
@@ -89,11 +89,19 @@
 					</div>
 				</div>
 				<div class="row contenido">
-					<span class="wtext jugtitle">Jugadores<span id="cont" class="wtext"></span></span><button id="edit" type='button' class='pull-right topcoat-button'>Edit</button>
+					<span class="wtext jugtitle">Jugadores<span id="cont" class="wtext"></span></span><button id="edit" type='button' class='pull-right topcoat-button'>Edit</button><br>
+					<label class="topcoat-switch pull-right">
+						<input type="checkbox" class="topcoat-switch__input" id="chkhayfecha">
+						<div class="topcoat-switch__toggle"></div>
+					</label>
+					<span class="wtext pull-right"> Proxima Fecha: </span>
 					<hr>
 					<div class="scroll">
 						<div id="ljug">
 
+						</div>
+						<div id="nhfecha">
+							<span class="wtext">No hay fecha</span>
 						</div>
 					</div>
 					<button id="save" type='button' class='btn btn-success'>Save</button><button id="cancel" type='button' class='btn btn-default'>Cancel</button>
